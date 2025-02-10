@@ -29,7 +29,7 @@ public class App {
 
     public static Javalin getApp() throws IOException, SQLException {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:h2:mem:java_project;DB_CLOSE_DELAY=-1;");
+        hikariConfig.setJdbcUrl("jdbc:h2:mem:project");
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
         InputStream url = App.class.getClassLoader().getResourceAsStream("schema.sql");
