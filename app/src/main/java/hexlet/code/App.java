@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class App {
-    public static Integer PORT = 7070;
+    public static final Integer PORT = 7070;
 
     public static void main(String[] args) throws IOException, SQLException {
         Javalin app = getApp();
@@ -46,7 +46,7 @@ public class App {
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
-                });
+        });
 
         app.get(NamedRoutes.mainPage(), RootController::index);
 
