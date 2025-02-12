@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class App {
-    public static final Integer PORT = 7070;
 
     public static void main(String[] args) throws IOException, SQLException {
         Javalin app = getApp();
-        app.start(PORT);
+        String port = System.getenv().getOrDefault("PORT", "7070");
+        app.start(Integer.parseInt(port));
     }
 
     public static Javalin getApp() throws IOException, SQLException {
