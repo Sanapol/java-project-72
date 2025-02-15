@@ -1,3 +1,9 @@
+@import gg.jte.Content
+@import hexlet.code.websites.BasePage
+
+@param BasePage page = null
+@param Content content
+
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
@@ -11,8 +17,11 @@
                 crossorigin="anonymous"></script>
     </head>
     <body>
-        <div>
-            <p>Hello World</p>
-        </div>
+        @if (page != null && page.getFlash() != null)
+            <div class="alert alert-${page.getFlashType()}" role="alert">
+                ${page.getFlash()}
+            </div>
+        @endif
+        ${content}
     </body>
 </html>

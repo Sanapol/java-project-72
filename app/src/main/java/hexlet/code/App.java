@@ -5,7 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
-import hexlet.code.controllers.RootController;
+import hexlet.code.controllers.WebsiteController;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,10 @@ public class App {
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
-        app.get(NamedRoutes.mainPage(), RootController::index);
+        app.get(NamedRoutes.mainPage(), WebsiteController::index);
+        app.post(NamedRoutes.urlsPage(), WebsiteController::buildUrls);
+        app.get(NamedRoutes.urlsPage(), WebsiteController::urls);
+        app.get(NamedRoutes.urlPage("{id}"), WebsiteController::show);
 
         return app;
     }
