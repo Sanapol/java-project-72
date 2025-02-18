@@ -1,5 +1,8 @@
 package hexlet.code;
 
+import hexlet.code.model.Website;
+import hexlet.code.repository.WebsiteRepository;
+import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import okhttp3.Response;
@@ -50,8 +53,19 @@ public class AppTest {
     @Test
     public void testNotFound() {
         JavalinTest.test(app, (server, client) -> {
-            Response response = client.get("/urls/111");
+            Response response = client.get(NamedRoutes.urlPage(111));
             assertThat(response.code()).isEqualTo(404);
+        });
+    }
+
+    @Test
+    public void testRepositorySave() throws SQLException {
+        Website website = new Website("https://codeclimate.com/github/Sanapol/java-project-72");
+        WebsiteRepository.save(website);
+        JavalinTest.test(app, (server, client) -> {
+            Response response = client.get(NamedRoutes.urlPage(website.getId()));
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).contains("https://codeclimate.com");
         });
     }
 }
