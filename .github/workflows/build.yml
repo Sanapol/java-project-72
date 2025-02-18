@@ -17,18 +17,17 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.7
-      - run:  cd app
-      - run: ./gradlew checkstyleMain
-      - run: ./gradlew test
+      - run: cd app
+      - run: make lint
+      - run: make test
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v9.0.0
         env:
-         CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-         JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
         with:
           coverageCommand: make report
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
