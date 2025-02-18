@@ -42,10 +42,10 @@ public class WebsiteRepository extends BaseRepository {
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
-                Timestamp created_at = resultSet.getTimestamp("created_at");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Website website = new Website(name);
                 website.setId(id);
-                website.setCreatedAt(created_at);
+                website.setCreatedAt(createdAt);
                 result.add(website);
             }
             return result;
@@ -61,10 +61,10 @@ public class WebsiteRepository extends BaseRepository {
             if (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
-                Timestamp created_at = resultSet.getTimestamp("created_at");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Website result = new Website(name);
                 website.setId(id);
-                website.setCreatedAt(created_at);
+                website.setCreatedAt(createdAt);
                 return Optional.of(result);
             }
             return Optional.empty();
@@ -79,10 +79,10 @@ public class WebsiteRepository extends BaseRepository {
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
-                Timestamp created_at = resultSet.getTimestamp("created_at");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Website website = new Website(name);
                 website.setId(id);
-                website.setCreatedAt(created_at);
+                website.setCreatedAt(createdAt);
                 return Optional.of(website);
             }
             return Optional.empty();
