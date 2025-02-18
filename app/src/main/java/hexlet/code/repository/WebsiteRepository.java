@@ -1,6 +1,7 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.Website;
+import hexlet.code.utilit.GetDomain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class WebsiteRepository extends BaseRepository {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, website.getName());
+            preparedStatement.setString(1, GetDomain.get(website.getName()));
             preparedStatement.setTimestamp(2, new Timestamp(new Date().getTime()));
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();

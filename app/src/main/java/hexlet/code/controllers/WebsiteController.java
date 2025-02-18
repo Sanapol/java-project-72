@@ -29,7 +29,7 @@ public class WebsiteController {
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .check(n -> n.contains("//"), "Некорректный URL")
                     .get();
-            Website website = new Website(GetDomain.get(name));
+            Website website = new Website(name);
             Optional<Website> repeat = WebsiteRepository.findByName(website);
             if (repeat.isEmpty()) {
                 WebsiteRepository.save(website);
