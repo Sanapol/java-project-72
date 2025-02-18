@@ -17,6 +17,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.7
+      - run:  cd app
       - run: ./gradlew checkstyleMain
       - run: ./gradlew test
       - name: Publish code coverage

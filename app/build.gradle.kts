@@ -12,6 +12,12 @@ application {
     mainClass.set("hexlet.code.App")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 group = "hexlet.code"
 version = "1.0-SNAPSHOT"
 
