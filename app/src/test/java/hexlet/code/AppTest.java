@@ -65,7 +65,7 @@ public class AppTest {
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlPage(website.getId()));
             assertThat(response.code()).isEqualTo(200);
-            assertThat(response.body().string()).contains("https://codeclimate.com");
+            assertThat(response.body().string()).contains("https://codeclimate.com").doesNotContain("github");
         });
     }
 }
