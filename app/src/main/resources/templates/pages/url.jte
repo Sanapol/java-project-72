@@ -18,7 +18,7 @@
                     <tr>
                         <td>${page.getWebsite().getId()}</td>
                         <td>${page.getWebsite().getName()}</td>
-                        <td>${String.valueOf(page.getWebsite().getCreated_at())}</td>
+                        <td>${String.valueOf(page.getWebsite().getCreatedAt())}</td>
                     </tr>
                 </tbody>
             </table>

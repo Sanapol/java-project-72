@@ -1,11 +1,7 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.Website;
-import org.h2.expression.function.CurrentDateTimeValueFunction;
 
-import javax.annotation.processing.Generated;
-import javax.swing.text.html.Option;
-import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class WebsiteRepository extends BaseRepository{
+public class WebsiteRepository extends BaseRepository {
 
     public static void save(Website website) throws SQLException {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
@@ -36,7 +32,7 @@ public class WebsiteRepository extends BaseRepository{
         }
     }
 
-    public static List<Website> getEntities() throws SQLException{
+    public static List<Website> getEntities() throws SQLException {
         String sql = "SELECT * FROM urls";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -49,7 +45,7 @@ public class WebsiteRepository extends BaseRepository{
                 Timestamp created_at = resultSet.getTimestamp("created_at");
                 Website website = new Website(name);
                 website.setId(id);
-                website.setCreated_at(created_at);
+                website.setCreatedAt(created_at);
                 result.add(website);
             }
             return result;
@@ -68,7 +64,7 @@ public class WebsiteRepository extends BaseRepository{
                 Timestamp created_at = resultSet.getTimestamp("created_at");
                 Website result = new Website(name);
                 website.setId(id);
-                website.setCreated_at(created_at);
+                website.setCreatedAt(created_at);
                 return Optional.of(result);
             }
             return Optional.empty();
@@ -86,7 +82,7 @@ public class WebsiteRepository extends BaseRepository{
                 Timestamp created_at = resultSet.getTimestamp("created_at");
                 Website website = new Website(name);
                 website.setId(id);
-                website.setCreated_at(created_at);
+                website.setCreatedAt(created_at);
                 return Optional.of(website);
             }
             return Optional.empty();

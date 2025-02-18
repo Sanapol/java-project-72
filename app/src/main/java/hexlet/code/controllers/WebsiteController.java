@@ -35,7 +35,7 @@ public class WebsiteController {
                 WebsiteRepository.save(website);
                 ctx.sessionAttribute("flash", "Успешно");
                 ctx.sessionAttribute("flash-type", "success");
-                ctx.redirect("/urls");
+                ctx.redirect(NamedRoutes.urlsPage());
             } else {
                 ctx.sessionAttribute("flash", "Информация о данном сайте уже существует");
                 ctx.sessionAttribute("flash-type", "warning");

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class WebsitePage extends BasePage{
+public class WebsitePage extends BasePage {
     private Website website;
 }

@@ -19,7 +19,7 @@
                     <tr>
                         <td>${website.getId()}</td>
                         <td>${website.getName()}</td>
-                        <td>${String.valueOf(website.getCreated_at())}</td>
+                        <td>${String.valueOf(website.getCreatedAt())}</td>
                     </tr>
                 @endfor
             </tbody>
