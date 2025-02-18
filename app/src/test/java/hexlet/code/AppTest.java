@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.controllers.WebsiteController;
 import hexlet.code.model.Website;
 import hexlet.code.repository.WebsiteRepository;
 import hexlet.code.utilit.NamedRoutes;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,10 +76,10 @@ public class AppTest {
         WebsiteRepository.save(website1);
         WebsiteRepository.save(website2);
         JavalinTest.test(app, (server, client) -> {
-                Response response = client.get(NamedRoutes.urlsPage());
-                assertThat(response.code()).isEqualTo(200);
-                assertThat(response.body().string()).contains("https://codeclimate.com")
-                        .contains("https://htmlbook.ru");
+            Response response = client.get(NamedRoutes.urlsPage());
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).contains("https://codeclimate.com")
+                    .contains("https://htmlbook.ru");
         });
     }
 }
