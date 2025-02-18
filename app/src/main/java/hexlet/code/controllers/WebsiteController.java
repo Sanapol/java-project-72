@@ -2,7 +2,6 @@ package hexlet.code.controllers;
 
 import hexlet.code.model.Website;
 import hexlet.code.repository.WebsiteRepository;
-import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import hexlet.code.websites.BuildWebsitePage;
 import hexlet.code.websites.WebsitePage;
