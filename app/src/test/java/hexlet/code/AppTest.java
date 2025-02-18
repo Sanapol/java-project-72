@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.controllers.WebsiteController;
 import hexlet.code.model.Website;
 import hexlet.code.repository.WebsiteRepository;
 import hexlet.code.utilit.NamedRoutes;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +45,7 @@ public class AppTest {
     @Test
     public void testCreateUrl() {
         JavalinTest.test(app, (server, client) -> {
-            String requestBody = "name=test&created_at=2022-12-05 10:37:22";
+            String requestBody = "name=test";
             Response response = client.post("/urls", requestBody);
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("test");
@@ -66,6 +68,20 @@ public class AppTest {
             Response response = client.get(NamedRoutes.urlPage(website.getId()));
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://codeclimate.com").doesNotContain("github");
+        });
+    }
+
+    @Test
+    public void testEntities() throws SQLException {
+        Website website1 = new Website("https://codeclimate.com/github/Sanapol/java-project-72");
+        Website website2 = new Website("https://htmlbook.ru/samhtml/tekst/spetssimvoly");
+        WebsiteRepository.save(website1);
+        WebsiteRepository.save(website2);
+        JavalinTest.test(app, (server, client) -> {
+                Response response = client.get(NamedRoutes.urlsPage());
+                assertThat(response.code()).isEqualTo(200);
+                assertThat(response.body().string()).contains("https://codeclimate.com")
+                        .contains("https://htmlbook.ru");
         });
     }
 }
