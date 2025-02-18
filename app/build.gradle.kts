@@ -3,6 +3,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.52.0"
     application
     checkstyle
+    jacoco
     id("io.freefair.lombok") version "8.12.1"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
@@ -42,4 +43,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    reports { xml.required.set(true) }
 }
