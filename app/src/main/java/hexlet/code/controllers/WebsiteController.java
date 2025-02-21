@@ -2,6 +2,7 @@ package hexlet.code.controllers;
 
 import hexlet.code.model.Website;
 import hexlet.code.repository.WebsiteRepository;
+import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import hexlet.code.websites.BuildWebsitePage;
 import hexlet.code.websites.WebsitePage;
@@ -28,7 +29,7 @@ public class WebsiteController {
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .check(n -> n.contains("//"), "Некорректный URL")
                     .get();
-            Website website = new Website(name);
+            Website website = new Website(GetDomain.get(name));
             Optional<Website> repeat = WebsiteRepository.findByName(website);
             if (repeat.isEmpty()) {
                 WebsiteRepository.save(website);
@@ -36,7 +37,7 @@ public class WebsiteController {
                 ctx.sessionAttribute("flash-type", "success");
                 ctx.redirect(NamedRoutes.urlsPage());
             } else {
-                ctx.sessionAttribute("flash", "Информация о данном сайте уже существует");
+                ctx.sessionAttribute("flash", "Сайт уже существует");
                 ctx.sessionAttribute("flash-type", "warning");
                 ctx.redirect(NamedRoutes.urlPage(website.getId()));
             }
@@ -60,6 +61,8 @@ public class WebsiteController {
         Website website = WebsiteRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("site not found"));
         WebsitePage page = new WebsitePage(website);
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("pages/url.jte", model("page", page));
     }
 }

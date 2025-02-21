@@ -4,7 +4,6 @@
 
 @template.page(page = page,
     content = @`
-    <div>
         <div class="col">
             <table class="table">
                 <thead>
@@ -17,11 +16,10 @@
                 <tbody>
                     <tr>
                         <td>${page.getWebsite().getId()}</td>
-                        <td>${page.getWebsite().getName()}</td>
+                        <td><a href="${page.getWebsite().getName()}">${page.getWebsite().getName()}</a></td>
                         <td>${String.valueOf(page.getWebsite().getCreatedAt())}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 `)

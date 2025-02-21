@@ -57,13 +57,12 @@ public class WebsiteRepository extends BaseRepository {
         String sql = "SELECT * FROM urls WHERE name = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, website.getName());
+            stmt.setString(1, GetDomain.get(website.getName()));
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
-                Website result = new Website(name);
+                Website result = new Website(website.getName());
                 website.setId(id);
                 website.setCreatedAt(createdAt);
                 return Optional.of(result);
