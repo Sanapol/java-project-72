@@ -27,6 +27,11 @@ repositories {
 }
 
 dependencies {
+    implementation("com.konghq:unirest-java-bom:4.4.5")
+    implementation("com.konghq:unirest-java-core:4.4.5")
+    implementation("com.konghq:unirest-modules-gson:4.4.5")
+    implementation("com.konghq:unirest-modules-jackson:4.4.5")
+    implementation ("org.jsoup:jsoup:1.18.3")
     implementation("com.h2database:h2:2.3.232")
     implementation("com.zaxxer:HikariCP:6.2.1")
     implementation("io.javalin:javalin:6.4.0")

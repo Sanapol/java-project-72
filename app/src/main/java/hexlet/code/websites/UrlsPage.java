@@ -1,6 +1,6 @@
 package hexlet.code.websites;
 
-import hexlet.code.model.Website;
+import hexlet.code.model.Url;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,6 +8,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class WebsitesPage extends BasePage {
-    private List<Website> websites;
+public class UrlsPage extends BasePage {
+    private List<Url> urls;
 }

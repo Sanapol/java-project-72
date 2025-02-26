@@ -1,6 +1,6 @@
 package hexlet.code.websites;
 
-import hexlet.code.model.Website;
+import hexlet.code.model.Url;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class WebsitePage extends BasePage {
-    private Website website;
+public class UrlPage extends BasePage {
+    private Url url;
 }

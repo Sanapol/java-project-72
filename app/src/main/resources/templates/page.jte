@@ -1,5 +1,8 @@
 @import gg.jte.Content
+@import hexlet.code.controllers.WebsiteController
 @import hexlet.code.websites.BasePage
+@import hexlet.code.websites.UrlPage
+@import kong.unirest.core.Unirest
 
 @param BasePage page = null
 @param Content content

@@ -1,7 +1,7 @@
 package hexlet.code;
 
-import hexlet.code.model.Website;
-import hexlet.code.repository.WebsiteRepository;
+import hexlet.code.model.Url;
+import hexlet.code.repository.UrlRepository;
 import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
@@ -60,10 +60,10 @@ public class AppTest {
 
     @Test
     public void testRepositorySave() throws SQLException {
-        Website website = new Website("https://codeclimate.com/github/Sanapol/java-project-72");
-        WebsiteRepository.save(website);
+        Url url = new Url("https://codeclimate.com/github/Sanapol/java-project-72");
+        UrlRepository.save(url);
         JavalinTest.test(app, (server, client) -> {
-            Response response = client.get(NamedRoutes.urlPage(website.getId()));
+            Response response = client.get(NamedRoutes.urlPage(url.getId()));
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://codeclimate.com").doesNotContain("github");
         });
@@ -71,10 +71,10 @@ public class AppTest {
 
     @Test
     public void testEntities() throws SQLException {
-        Website website1 = new Website("https://codeclimate.com/github/Sanapol/java-project-72");
-        Website website2 = new Website("https://htmlbook.ru/samhtml/tekst/spetssimvoly");
-        WebsiteRepository.save(website1);
-        WebsiteRepository.save(website2);
+        Url url1 = new Url("https://codeclimate.com/github/Sanapol/java-project-72");
+        Url url2 = new Url("https://htmlbook.ru/samhtml/tekst/spetssimvoly");
+        UrlRepository.save(url1);
+        UrlRepository.save(url2);
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlsPage());
             assertThat(response.code()).isEqualTo(200);

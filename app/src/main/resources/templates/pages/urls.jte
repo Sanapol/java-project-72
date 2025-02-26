@@ -1,7 +1,8 @@
-@import hexlet.code.model.Website
-@import hexlet.code.websites.WebsitesPage
+@import hexlet.code.model.Url
+@import hexlet.code.utilit.NamedRoutes
+@import hexlet.code.websites.UrlsPage
 
-@param WebsitesPage page
+@param UrlsPage page
 
 @template.page(page = page,
     content = @`
@@ -15,11 +16,11 @@
                 </tr>
             </thead>
             <tbody>
-                @for(Website website : page.getWebsites())
+                @for(Url url : page.getUrls())
                     <tr>
-                        <td>${website.getId()}</td>
-                        <td>${website.getName()}</td>
-                        <td>${String.valueOf(website.getCreatedAt())}</td>
+                        <td>${url.getId()}</td>
+                        <td><a href="${NamedRoutes.urlPage(url.getId())}">${url.getName()}</a></td>
+                        <td>${String.valueOf(url.getCreatedAt())}</td>
                     </tr>
                 @endfor
             </tbody>
