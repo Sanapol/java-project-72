@@ -2,6 +2,7 @@ package hexlet.code;
 
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
+import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class AppTest {
+public class TestJavalin {
 
     private Javalin app;
 
@@ -59,8 +60,8 @@ public class AppTest {
     }
 
     @Test
-    public void testRepositorySave() throws SQLException {
-        Url url = new Url("https://codeclimate.com/github/Sanapol/java-project-72");
+    public void testGetDomain() throws SQLException {
+        Url url = new Url(GetDomain.get("https://codeclimate.com/github/Sanapol/java-project-72"));
         UrlRepository.save(url);
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlPage(url.getId()));

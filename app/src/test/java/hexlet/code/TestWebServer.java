@@ -5,7 +5,6 @@ import kong.unirest.core.Unirest;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.AfterAll;
@@ -39,7 +38,7 @@ public class TestWebServer {
         Document doc = Jsoup.parse(response.getBody());
         String title = doc.title();
         String h1 = doc.select("h1").text();
-        String description = doc.select("meta[name=description]").attr("content");;
+        String description = doc.select("meta[name=description]").attr("content");
 
         assertThat(title).contains("hello i am title");
         assertThat(h1).contains("hello i am h1");

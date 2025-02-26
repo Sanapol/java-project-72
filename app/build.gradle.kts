@@ -41,6 +41,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.1.0-alpha1")
     implementation("net.datafaker:datafaker:2.4.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     testImplementation("org.assertj:assertj-core:3.25.3")
     testImplementation(platform("org.junit:junit-bom:5.10.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")

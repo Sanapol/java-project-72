@@ -1,7 +1,6 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.Url;
-import hexlet.code.utilit.GetDomain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +19,7 @@ public class UrlRepository extends BaseRepository {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, GetDomain.get(url.getName()));
+            preparedStatement.setString(1, url.getName());
             preparedStatement.setTimestamp(2, new Timestamp(new Date().getTime()));
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -57,7 +56,7 @@ public class UrlRepository extends BaseRepository {
         String sql = "SELECT * FROM urls WHERE name = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, GetDomain.get(url.getName()));
+            stmt.setString(1, url.getName());
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 long id = resultSet.getLong("id");

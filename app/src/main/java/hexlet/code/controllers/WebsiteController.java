@@ -38,7 +38,7 @@ public class WebsiteController {
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .check(n -> n.contains("//"), "Некорректный URL")
                     .get();
-            Url url = new Url(GetDomain.get(name));
+            Url url = new Url(GetDomain.get(GetDomain.get(name)));
             Optional<Url> repeat = UrlRepository.findByName(url);
             if (repeat.isEmpty()) {
                 UrlRepository.save(url);
@@ -87,7 +87,7 @@ public class WebsiteController {
             int statusCode = response.getStatus();
             String title = doc.title();
             String h1 = doc.select("h1").text();
-            String description = doc.select("description").attr("content");
+            String description = doc.select("meta[name=description]").attr("content");
             UrlCheck urlCheck = new UrlCheck(id, statusCode, title, h1, description);
             UrlCheckRepository.check(urlCheck);
             ctx.redirect(NamedRoutes.urlPage(id));
