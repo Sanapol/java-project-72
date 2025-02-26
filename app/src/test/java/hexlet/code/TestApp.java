@@ -1,12 +1,23 @@
 package hexlet.code;
 
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import okhttp3.HttpUrl;
 import okhttp3.Response;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +27,16 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class TestJavalin {
+public class TestApp {
 
     private Javalin app;
+    public static MockWebServer mockWebServer;
+
+    @BeforeAll
+    static void serverStart() throws IOException {
+        mockWebServer = new MockWebServer();
+        mockWebServer.start();
+    }
 
     @BeforeEach
     public final void getUp() throws SQLException, IOException {
@@ -82,5 +100,37 @@ public class TestJavalin {
             assertThat(response.body().string()).contains("https://codeclimate.com")
                     .contains("https://htmlbook.ru");
         });
+    }
+
+    @Test
+    public void testCheck() throws IOException, InterruptedException, SQLException {
+        String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+        MockResponse mockResponse = new MockResponse()
+                .setHeader("Content-Type", "application/json; charset=utf-8");
+        mockResponse.setBody("<title>hello i am title</title> "
+                + "<h1>hello i am h1</h1> <meta name=\"description\" content=\"hello i am description\">");
+        mockWebServer.enqueue(mockResponse);
+        HttpUrl url = mockWebServer.url(baseUrl);
+
+        HttpResponse<String> response = Unirest.get(String.valueOf(url)).asString();
+        Document doc = Jsoup.parse(response.getBody());
+        int statusCode = response.getStatus();
+        String title = doc.title();
+        String h1 = doc.select("h1").text();
+        String description = doc.select("meta[name=description]").attr("content");
+        UrlCheck urlCheck = new UrlCheck(1, statusCode, title, h1, description);
+        UrlCheckRepository.check(urlCheck);
+
+        assertThat(urlCheck.getTitle()).isEqualTo("hello i am title");
+        assertThat(urlCheck.getH1()).isEqualTo("hello i am h1");
+        assertThat(urlCheck.getDescription()).isEqualTo("hello i am description");
+        assertThat(urlCheck.getStatusCode()).isEqualTo(200);
+        assertThat(urlCheck.getId()).isEqualTo(1);
+
+    }
+
+    @AfterAll
+    static void serverOff() throws IOException {
+        mockWebServer.shutdown();
     }
 }
