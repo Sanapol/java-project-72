@@ -1,21 +1,15 @@
 package hexlet.code;
 
 import hexlet.code.model.Url;
-import hexlet.code.model.UrlCheck;
-import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
-import kong.unirest.core.HttpResponse;
-import kong.unirest.core.Unirest;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
