@@ -48,7 +48,7 @@ public class WebsiteController {
             } else {
                 ctx.sessionAttribute("flash", "Сайт уже существует");
                 ctx.sessionAttribute("flash-type", "warning");
-                ctx.redirect(NamedRoutes.urlPage(url.getId()));
+                ctx.redirect(NamedRoutes.urlPage(repeat.get().getId()));
             }
         } catch (ValidationException e) {
             String name = ctx.formParam("name");

@@ -62,8 +62,8 @@ public class UrlRepository extends BaseRepository {
                 long id = resultSet.getLong("id");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Url result = new Url(url.getName());
-                url.setId(id);
-                url.setCreatedAt(createdAt);
+                result.setId(id);
+                result.setCreatedAt(createdAt);
                 return Optional.of(result);
             }
             return Optional.empty();
