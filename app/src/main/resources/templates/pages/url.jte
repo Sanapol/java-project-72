@@ -1,28 +1,26 @@
 @import hexlet.code.model.UrlCheck
 @import hexlet.code.utilit.NamedRoutes
-@import hexlet.code.websites.ChecksPage
 @import hexlet.code.websites.UrlPage
-@import hexlet.code.websites.ChecksPage
 
 @param UrlPage page
-@param ChecksPage checks
 
 @template.page(page = page,
     content = @`
-        <div class="col">
-            <table class="table">
+    <section class="flex-grow-1 p-5">
+        <div class="container-lg mt-8">
+            <table class="table table-bordered table-hover mt-3">
                 <thead>
                 <tr>
-                    <th>id</th>
-                    <th>сайт</th>
-                    <th>дата проверки</th>
+                    <th class="col-2">id</th>
+                    <th class="col-3">сайт</th>
+                    <th class="col-3">Дата Создания</th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>${page.getUrl().getId()}</td>
-                        <td><a href="${page.getUrl().getName()}">${page.getUrl().getName()}</a></td>
-                        <td>${String.valueOf(page.getUrl().getCreatedAt())}</td>
+                        <td class="col-2">${page.getUrl().getId()}</td>
+                        <td class="col-3"><a href="${page.getUrl().getName()}">${page.getUrl().getName()}</a></td>
+                        <td class="col-3">${String.valueOf(page.getUrl().getCreatedAt()).substring(0, 16)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -32,27 +30,28 @@
                 </form>
             </div>
             <div class="col">
-                <table class="table">
+                <h1 class="text-center">Проверки</h1>
+                <table class="table table-bordered table-hover mt-3">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Код ответа</th>
-                            <th>title</th>
-                            <th>h1</th>
-                            <th>description</th>
-                            <th>Дата проверки</th>
+                            <th class="col-1">ID</th>
+                            <th class="col-1">Код ответа</th>
+                            <th class="col-2">title</th>
+                            <th class="col-2">h1</th>
+                            <th class="col-2">description</th>
+                            <th class="col-1">Дата проверки</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if(checks != null && checks.getChecks() != null)
-                            @for(UrlCheck check : checks.getChecks())
+                        @if(page.getUrl() != null && page.getUrl().getUrlCheck() != null)
+                            @for(UrlCheck check : page.getUrl().getUrlCheck().reversed())
                                 <tr>
-                                    <td>${check.getId()}</td>
-                                    <td>${check.getStatusCode()}</td>
-                                    <td>${check.getTitle()}</td>
-                                    <td>${check.getH1()}</td>
-                                    <td>${check.getDescription()}</td>
-                                    <td>${String.valueOf(check.getCreatedAt())}</td>
+                                    <td class="col-1">${check.getId()}</td>
+                                    <td class="col-1">${check.getStatusCode()}</td>
+                                    <td class="col-2">${check.getTitle()}</td>
+                                    <td class="col-2">${check.getH1()}</td>
+                                    <td class="col-2">${check.getDescription()}</td>
+                                    <td class="col-1">${String.valueOf(check.getCreatedAt()).substring(0,16)}</td>
                                 </tr>
                             @endfor
                         @endif
@@ -60,4 +59,5 @@
                 </table>
             </div>
         </div>
+    </section>
 `)

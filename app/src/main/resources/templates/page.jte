@@ -1,8 +1,7 @@
 @import gg.jte.Content
-@import hexlet.code.controllers.WebsiteController
+@import hexlet.code.utilit.NamedRoutes
 @import hexlet.code.websites.BasePage
-@import hexlet.code.websites.UrlPage
-@import kong.unirest.core.Unirest
+
 
 @param BasePage page = null
 @param Content content
@@ -19,12 +18,26 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
                 crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
+        <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <h1 class="navbar-brand">Анализатор страниц</h1>
+                <div class="collapse navbar-collapse">
+                    <nav class="navbar-nav">
+                        <a class="nav-link" href="${NamedRoutes.mainPage()}">Главная</a>
+                        <a class="nav-link" href="${NamedRoutes.urlsPage()}">Сайты</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
         @if (page != null && page.getFlash() != null)
             <div class="alert alert-${page.getFlashType()}" role="alert">
                 ${page.getFlash()}
             </div>
         @endif
         ${content}
+    <footer class="footer border-top py-3 mt-5 bg-light">
+        <p class="text-center">Created by Sanapol</p>
+    </footer>
     </body>
 </html>

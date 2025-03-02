@@ -1,6 +1,7 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,10 +43,13 @@ public class UrlRepository extends BaseRepository {
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
-                Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Url url = new Url(name);
+                List<UrlCheck> urlCheck = UrlCheckRepository.getCheckList(id);
+                if (!urlCheck.isEmpty()) {
+                    url.setLastCheck(urlCheck.getFirst().getCreatedAt());
+                    url.setCode(urlCheck.getFirst().getStatusCode());
+                }
                 url.setId(id);
-                url.setCreatedAt(createdAt);
                 result.add(url);
             }
             return result;
@@ -62,8 +66,8 @@ public class UrlRepository extends BaseRepository {
                 long id = resultSet.getLong("id");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Url result = new Url(url.getName());
-                result.setId(id);
                 result.setCreatedAt(createdAt);
+                result.setId(id);
                 return Optional.of(result);
             }
             return Optional.empty();
@@ -71,7 +75,7 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static Optional<Url> find(long id) throws SQLException {
-        String sql = "SELECT * FROM urls WHERE id = ?";
+        String sql = "SELECT id, name, CAST(created_at AS SMALLDATETIME) created_at FROM urls WHERE id = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -80,8 +84,8 @@ public class UrlRepository extends BaseRepository {
                 String name = resultSet.getString("name");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Url url = new Url(name);
-                url.setId(id);
                 url.setCreatedAt(createdAt);
+                url.setId(id);
                 return Optional.of(url);
             }
             return Optional.empty();

@@ -1,7 +1,6 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.UrlCheck;
-import hexlet.code.websites.ChecksPage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,7 +38,7 @@ public class UrlCheckRepository {
         }
     }
 
-    public static ChecksPage getCheckList(Long urlId) throws SQLException {
+    public static List<UrlCheck> getCheckList(Long urlId) throws SQLException {
         String sql = "Select * FROM url_checks WHERE url_id = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -59,7 +58,7 @@ public class UrlCheckRepository {
                 urlCheck.setCreatedAt(createdAt);
                 result.add(urlCheck);
             }
-            return new ChecksPage(result);
+            return result;
         }
     }
 }

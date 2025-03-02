@@ -7,7 +7,6 @@ import hexlet.code.repository.UrlRepository;
 import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import hexlet.code.websites.BuildWebsitePage;
-import hexlet.code.websites.ChecksPage;
 import hexlet.code.websites.UrlPage;
 import hexlet.code.websites.UrlsPage;
 import io.javalin.http.Context;
@@ -42,7 +41,7 @@ public class WebsiteController {
             Optional<Url> repeat = UrlRepository.findByName(url);
             if (repeat.isEmpty()) {
                 UrlRepository.save(url);
-                ctx.sessionAttribute("flash", "Успешно");
+                ctx.sessionAttribute("flash", "Сайт успешно добавлен");
                 ctx.sessionAttribute("flash-type", "success");
                 ctx.redirect(NamedRoutes.urlsPage());
             } else {
@@ -72,8 +71,9 @@ public class WebsiteController {
         UrlPage page = new UrlPage(url);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
-        ChecksPage checksPage = UrlCheckRepository.getCheckList(id);
-        ctx.render("pages/url.jte", model("page", page, "checks", checksPage));
+        List<UrlCheck> urlChecks = UrlCheckRepository.getCheckList(id);
+        page.getUrl().setUrlCheck(urlChecks);
+        ctx.render("pages/url.jte", model("page", page));
     }
 
     public static void check(Context ctx) throws SQLException {
@@ -90,6 +90,8 @@ public class WebsiteController {
             String description = doc.select("meta[name=description]").attr("content");
             UrlCheck urlCheck = new UrlCheck(id, statusCode, title, h1, description);
             UrlCheckRepository.check(urlCheck);
+            ctx.sessionAttribute("flash", "Сайт успешно проверен");
+            ctx.sessionAttribute("flash-type", "success");
             ctx.redirect(NamedRoutes.urlPage(id));
         } catch (SQLException e) {
             throw new SQLException("check is failed");
