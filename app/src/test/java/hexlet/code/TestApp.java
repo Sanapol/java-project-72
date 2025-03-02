@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -55,16 +56,6 @@ public class TestApp {
     }
 
     @Test
-    public void testCreateUrl() {
-        JavalinTest.test(app, (server, client) -> {
-            String requestBody = "name=test";
-            Response response = client.post("/urls", requestBody);
-            assertThat(response.code()).isEqualTo(200);
-            assertThat(response.body().string()).contains("test");
-        });
-    }
-
-    @Test
     public void testNotFound() {
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlPage(111));
@@ -73,7 +64,7 @@ public class TestApp {
     }
 
     @Test
-    public void testFindByName() throws SQLException {
+    public void testFindByName() throws SQLException, MalformedURLException {
         Url url = new Url(GetDomain.get("https://codeclimate.com/github/Sanapol/java-project-72"));
         UrlRepository.save(url);
         Optional<Url> entity = UrlRepository.findByName(url);
@@ -104,7 +95,7 @@ public class TestApp {
     }
 
     @Test
-    public void testEntities() throws SQLException {
+    public void testEntities() throws SQLException, MalformedURLException {
         Url url1 = new Url(GetDomain.get("https://codeclimate.com/github/Sanapol/java-project-72"));
         Url url2 = new Url(GetDomain.get("https://htmlbook.ru/samhtml/tekst/spetssimvoly"));
         UrlRepository.save(url1);

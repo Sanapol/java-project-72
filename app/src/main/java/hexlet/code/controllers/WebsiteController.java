@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
+import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -31,13 +32,12 @@ public class WebsiteController {
         ctx.render("pages/index.jte", model("page", page));
     }
 
-    public static void buildUrls(Context ctx) throws SQLException {
+    public static void buildUrls(Context ctx) throws SQLException, MalformedURLException {
         try {
             String name = ctx.formParamAsClass("name", String.class)
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
-                    .check(n -> n.contains("//"), "Некорректный URL")
                     .get();
-            Url url = new Url(GetDomain.get(GetDomain.get(name)));
+            Url url = new Url(GetDomain.get(name));
             Optional<Url> repeat = UrlRepository.findByName(url);
             if (repeat.isEmpty()) {
                 UrlRepository.save(url);
@@ -49,9 +49,13 @@ public class WebsiteController {
                 ctx.sessionAttribute("flash-type", "warning");
                 ctx.redirect(NamedRoutes.urlPage(repeat.get().getId()));
             }
-        } catch (ValidationException e) {
+        } catch (ValidationException | MalformedURLException e) {
             String name = ctx.formParam("name");
-            BuildWebsitePage page = new BuildWebsitePage(name, e.getErrors());
+            BuildWebsitePage page = new BuildWebsitePage(name);
+            ctx.sessionAttribute("flash", "Некорректный URL");
+            ctx.sessionAttribute("flash-type", "danger");
+            page.setFlash(ctx.consumeSessionAttribute("flash"));
+            page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
             ctx.render("pages/index.jte", model("page", page));
         }
     }

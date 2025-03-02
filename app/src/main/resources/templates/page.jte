@@ -31,7 +31,7 @@
             </div>
         </header>
         @if (page != null && page.getFlash() != null)
-            <div class="alert alert-${page.getFlashType()}" role="alert">
+            <div class="rounded-0 m-0 alert alert-${page.getFlashType()}" role="alert">
                 ${page.getFlash()}
             </div>
         @endif
