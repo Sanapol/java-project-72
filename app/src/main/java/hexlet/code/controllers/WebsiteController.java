@@ -32,11 +32,12 @@ public class WebsiteController {
         ctx.render("pages/index.jte", model("page", page));
     }
 
-    public static void buildUrls(Context ctx) throws SQLException, MalformedURLException {
+    public static void buildUrls(Context ctx) throws SQLException {
         try {
             String name = ctx.formParamAsClass("url", String.class)
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .get();
+            System.out.println(name);
             Url url = new Url(GetDomain.get(name));
             Optional<Url> repeat = UrlRepository.findByName(url);
             if (repeat.isEmpty()) {
@@ -50,7 +51,7 @@ public class WebsiteController {
                 ctx.redirect(NamedRoutes.urlPage(repeat.get().getId()));
             }
         } catch (ValidationException | MalformedURLException e) {
-            String name = ctx.formParam("name");
+            String name = ctx.formParam("url");
             BuildWebsitePage page = new BuildWebsitePage(name);
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.sessionAttribute("flash-type", "danger");
