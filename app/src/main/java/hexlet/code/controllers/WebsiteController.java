@@ -37,8 +37,7 @@ public class WebsiteController {
             String name = ctx.formParamAsClass("name", String.class)
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .get();
-            System.out.println(name);
-            Url url = new Url(GetDomain.get(name));
+            Url url = new Url(GetDomain.get(name.trim()));
             Optional<Url> repeat = UrlRepository.findByName(url);
             if (repeat.isEmpty()) {
                 UrlRepository.save(url);
