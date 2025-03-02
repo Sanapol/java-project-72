@@ -11,7 +11,7 @@
             <p class="lead">Проверка сайта на SEO пригодность</p>
             <div class="row">
                 <label class="col">
-                    <input class="form-control w-100 form-floating" type="url" name="url" value="${page.getName()}" placeholder="ссылка">
+                    <input class="form-control w-100 form-floating" type="url" name="name" value="${page.getName()}" placeholder="ссылка">
                 </label>
                 <input type="submit" value="принять" class="col-auto btn btn-primary">
                 <p class="mt-2 mb-0 text-white">Пример: https://www.example.com</p>

@@ -34,7 +34,7 @@ public class WebsiteController {
 
     public static void buildUrls(Context ctx) throws SQLException {
         try {
-            String name = ctx.formParamAsClass("url", String.class)
+            String name = ctx.formParamAsClass("name", String.class)
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .get();
             System.out.println(name);
@@ -51,7 +51,7 @@ public class WebsiteController {
                 ctx.redirect(NamedRoutes.urlPage(repeat.get().getId()));
             }
         } catch (ValidationException | MalformedURLException e) {
-            String name = ctx.formParam("url");
+            String name = ctx.formParam("name");
             BuildWebsitePage page = new BuildWebsitePage(name);
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.sessionAttribute("flash-type", "danger");
