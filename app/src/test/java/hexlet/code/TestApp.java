@@ -58,7 +58,7 @@ public class TestApp {
     @Test
     public void testCreateUrl() {
         JavalinTest.test(app, (server, client) -> {
-            String requestBody = "name=https://www.example.com";
+            String requestBody = "url=https://www.example.com";
             Response response = client.post("/urls", requestBody);
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://www.example.com");

@@ -34,7 +34,7 @@ public class WebsiteController {
 
     public static void buildUrls(Context ctx) throws SQLException, MalformedURLException {
         try {
-            String name = ctx.formParamAsClass("name", String.class)
+            String name = ctx.formParamAsClass("url", String.class)
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .get();
             Url url = new Url(GetDomain.get(name));
