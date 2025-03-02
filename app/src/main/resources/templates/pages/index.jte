@@ -1,7 +1,5 @@
 @import hexlet.code.utilit.NamedRoutes
 @import hexlet.code.websites.BuildWebsitePage
-@import io.javalin.validation.ValidationError
-@import java.util.List
 
 @param BuildWebsitePage page
 
