@@ -75,9 +75,10 @@ public class TestApp {
 
     @Test
     public void testFindByName() throws SQLException, MalformedURLException {
-        Url url = new Url(GetDomain.get("https://codeclimate.com/github/Sanapol/java-project-72"));
+        String name = "https://codeclimate.com/github/Sanapol/java-project-72";
+        Url url = new Url(GetDomain.get(name));
         UrlRepository.save(url);
-        Optional<Url> entity = UrlRepository.findByName(url);
+        Optional<Url> entity = UrlRepository.findByName("https://codeclimate.com");
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlPage(entity.get().getId()));
             assertThat(response.code()).isEqualTo(200);
@@ -117,6 +118,19 @@ public class TestApp {
                     .contains("https://htmlbook.ru");
         });
     }
+
+    @Test
+    public void testTest() {
+        JavalinTest.test(app, (server, client) -> {
+            var name = "http://localhost:50275";
+            var requestBody = "url=" + name;
+            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
+
+            var actualUrl = UrlRepository.findByName(name);
+            assertThat(actualUrl).isNotNull();
+        });
+    }
+
 
     @AfterAll
     static void serverOff() throws IOException {

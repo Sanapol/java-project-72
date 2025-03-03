@@ -56,16 +56,16 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
-    public static Optional<Url> findByName(Url url) throws SQLException {
+    public static Optional<Url> findByName(String url) throws SQLException {
         String sql = "SELECT * FROM urls WHERE name = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, url.getName());
+            stmt.setString(1, url);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
-                Url result = new Url(url.getName());
+                Url result = new Url(url);
                 result.setCreatedAt(createdAt);
                 result.setId(id);
                 return Optional.of(result);
