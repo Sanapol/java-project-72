@@ -78,7 +78,7 @@ public class TestApp {
         String name = "https://codeclimate.com/github/Sanapol/java-project-72";
         Url url = new Url(GetDomain.get(name));
         UrlRepository.save(url);
-        Optional<Url> entity = UrlRepository.findByName("https://codeclimate.com");
+        Optional<Url> entity = UrlRepository.findByName(GetDomain.get(name));
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlPage(entity.get().getId()));
             assertThat(response.code()).isEqualTo(200);
