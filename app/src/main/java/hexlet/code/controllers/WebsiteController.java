@@ -38,9 +38,9 @@ public class WebsiteController {
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .get();
             Url url = new Url(GetDomain.get(name.trim()));
+            UrlRepository.save(url);
             Optional<Url> repeat = UrlRepository.findByName(name);
             if (repeat.isEmpty()) {
-                UrlRepository.save(url);
                 ctx.sessionAttribute("flash", "Сайт успешно добавлен");
                 ctx.sessionAttribute("flash-type", "success");
                 ctx.redirect(NamedRoutes.urlsPage());
