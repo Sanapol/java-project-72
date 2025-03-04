@@ -21,7 +21,6 @@ import org.jsoup.nodes.Document;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -39,9 +38,9 @@ public class WebsiteController {
                     .get();
             Url url = new Url(GetDomain.get(name.trim()));
             UrlRepository.save(url);
-                ctx.sessionAttribute("flash", "Сайт успешно добавлен");
-                ctx.sessionAttribute("flash-type", "success");
-                ctx.redirect(NamedRoutes.urlsPage());
+            ctx.sessionAttribute("flash", "Сайт успешно добавлен");
+            ctx.sessionAttribute("flash-type", "success");
+            ctx.redirect(NamedRoutes.urlsPage());
         } catch (ValidationException | MalformedURLException e) {
             String name = ctx.formParam("url");
             BuildWebsitePage page = new BuildWebsitePage(name);
