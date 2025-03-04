@@ -120,7 +120,7 @@ public class TestApp {
     }
 
     @Test
-    public void testTest() {
+    public void testPost() {
         JavalinTest.test(app, (server, client) -> {
             var name = "http://localhost:50275";
             var requestBody = "url=" + name;
