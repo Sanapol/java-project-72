@@ -44,6 +44,7 @@ public class App {
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
         InputStream url = App.class.getClassLoader().getResourceAsStream("schema.sql");
+        assert url != null;
         String sql = new BufferedReader(new InputStreamReader(url))
                 .lines().collect(Collectors.joining("\n"));
 
@@ -55,7 +56,6 @@ public class App {
         BaseRepository.dataSource = dataSource;
 
         Javalin app = Javalin.create(config -> {
-            config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
