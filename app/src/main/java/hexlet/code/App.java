@@ -56,6 +56,7 @@ public class App {
         BaseRepository.dataSource = dataSource;
 
         Javalin app = Javalin.create(config -> {
+            config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
