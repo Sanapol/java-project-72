@@ -32,7 +32,7 @@ dependencies {
     implementation("com.konghq:unirest-modules-gson:4.4.5")
     implementation("com.konghq:unirest-modules-jackson:4.4.5")
     implementation("org.apache.commons:commons-text:1.11.0")
-    implementation("org.apache.commons:commons-rendering:6.1.6")
+    implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.apache.commons:commons-lang3:3.15.0")
     implementation("org.postgresql:postgresql:42.7.3")
     implementation ("org.jsoup:jsoup:1.18.3")
