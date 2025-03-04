@@ -37,7 +37,7 @@ public class App {
         return templateEngine;
     }
 
-    public static Javalin getApp() throws IOException, SQLException {
+    public static Javalin getAppTest() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:h2:mem:project");
 
@@ -49,6 +49,36 @@ public class App {
         log.info(sql);
         try (Connection connection = dataSource.getConnection();
                 Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        }
+        BaseRepository.dataSource = dataSource;
+
+        Javalin app = Javalin.create(config -> {
+            config.bundledPlugins.enableDevLogging();
+            config.fileRenderer(new JavalinJte(createTemplateEngine()));
+        });
+
+        app.get(NamedRoutes.mainPage(), WebsiteController::index);
+        app.post(NamedRoutes.urlsPage(), WebsiteController::buildUrls);
+        app.get(NamedRoutes.urlsPage(), WebsiteController::urls);
+        app.get(NamedRoutes.urlPage("{id}"), WebsiteController::show);
+        app.post(NamedRoutes.urlChecks("{id}"), WebsiteController::check);
+
+        return app;
+    }
+
+    public static Javalin getApp() throws SQLException {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+
+        HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+        InputStream url = App.class.getClassLoader().getResourceAsStream("schema.sql");
+        String sql = new BufferedReader(new InputStreamReader(url))
+                .lines().collect(Collectors.joining("\n"));
+
+        log.info(sql);
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
             statement.execute(sql);
         }
         BaseRepository.dataSource = dataSource;
