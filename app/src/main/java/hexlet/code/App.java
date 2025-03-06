@@ -13,7 +13,6 @@ import hexlet.code.repository.BaseRepository;
 import hexlet.code.utilit.NamedRoutes;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class App {
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws SQLException {
         Javalin app = getApp();
         String port = System.getenv().getOrDefault("PORT", "7070");
         app.start(Integer.parseInt(port));

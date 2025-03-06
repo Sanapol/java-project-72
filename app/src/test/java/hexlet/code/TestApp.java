@@ -35,7 +35,7 @@ public class TestApp {
     }
 
     @BeforeEach
-    public final void getUp() throws SQLException, IOException {
+    public final void getUp() throws SQLException {
         app = App.getApp();
     }
 
