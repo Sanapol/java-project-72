@@ -39,10 +39,7 @@ public class App {
 
     public static Javalin getApp() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
-        String urlDataBase = System.getenv().getOrDefault(
-                "jdbc:postgresql://dpg-cul68vt2ng1s73dtp2og-a:5432/database_tyyj?"
-                        + "password=BCFpzi6HnITkKc7r02fPLwxg43CBZUeD&user=database_tyyj_user",
-                "jdbc:h2:mem:project;");
+        String urlDataBase = System.getenv().getOrDefault("JDBS_DATABASE_URL", "jdbc:h2:mem:project;");
         hikariConfig.setJdbcUrl(urlDataBase);
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
