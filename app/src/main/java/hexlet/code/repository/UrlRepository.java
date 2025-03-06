@@ -2,6 +2,7 @@ package hexlet.code.repository;
 
 import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
+import org.postgresql.util.PGTimestamp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class UrlRepository extends BaseRepository {
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getName());
-            preparedStatement.setTimestamp(2, new Timestamp(new Date().getTime()));
+            preparedStatement.setTimestamp(2, new PGTimestamp(new Date().getTime()));
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
@@ -75,7 +76,7 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static Optional<Url> find(long id) throws SQLException {
-        String sql = "SELECT id, name, CAST(created_at AS SMALLDATETIME) created_at FROM urls WHERE id = ?";
+        String sql = "SELECT * FROM urls WHERE id = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
