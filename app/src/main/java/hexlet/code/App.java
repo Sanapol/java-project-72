@@ -26,7 +26,7 @@ public class App {
     public static void main(String[] args) throws SQLException {
         Javalin app = getApp();
         String port = System.getenv().getOrDefault("PORT", "7070");
-        app.start(Integer.valueOf(port));
+        app.start(Integer.parseInt(port));
     }
 
     private static TemplateEngine createTemplateEngine() {

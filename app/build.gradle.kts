@@ -27,6 +27,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.apache.maven.plugins:maven-dependency-plugin:2.4")
     implementation("com.konghq:unirest-java-bom:4.4.5")
     implementation("com.konghq:unirest-java-core:4.4.5")
     implementation("com.konghq:unirest-modules-gson:4.4.5")
