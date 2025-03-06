@@ -38,7 +38,7 @@ public class App {
 
     public static Javalin getApp() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
-        String urlDataBase = System.getenv().getOrDefault("JDBS_DATABASE_URL", "jdbc:h2:mem:project;");
+        String urlDataBase = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;");
         hikariConfig.setJdbcUrl(urlDataBase);
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
