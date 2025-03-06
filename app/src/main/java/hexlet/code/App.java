@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class App {
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException {
         Javalin app = getApp();
         String port = System.getenv().getOrDefault("PORT", "7070");
         app.start(Integer.parseInt(port));
@@ -37,10 +37,41 @@ public class App {
         return templateEngine;
     }
 
-    public static Javalin getApp() throws SQLException, ClassNotFoundException {
+    public static Javalin getApp() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
-        Class.forName("org.postgresql.Driver");
         String urlDataBase = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;");
+        hikariConfig.setJdbcUrl(urlDataBase);
+
+        HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+        InputStream url = App.class.getClassLoader().getResourceAsStream("schema.sql");
+        assert url != null;
+        String sql = new BufferedReader(new InputStreamReader(url))
+                .lines().collect(Collectors.joining("\n"));
+
+        log.info(sql);
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        }
+        BaseRepository.dataSource = dataSource;
+
+        Javalin app = Javalin.create(config -> {
+            config.bundledPlugins.enableDevLogging();
+            config.fileRenderer(new JavalinJte(createTemplateEngine()));
+        });
+
+        app.get(NamedRoutes.mainPage(), WebsiteController::index);
+        app.post(NamedRoutes.urlsPage(), WebsiteController::buildUrls);
+        app.get(NamedRoutes.urlsPage(), WebsiteController::urls);
+        app.get(NamedRoutes.urlPage("{id}"), WebsiteController::show);
+        app.post(NamedRoutes.urlChecks("{id}"), WebsiteController::check);
+
+        return app;
+    }
+
+    public static Javalin getAppTest() throws SQLException {
+        HikariConfig hikariConfig = new HikariConfig();
+        String urlDataBase = "jdbc:h2:mem:project;";
         hikariConfig.setJdbcUrl(urlDataBase);
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);

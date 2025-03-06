@@ -35,8 +35,8 @@ public class TestApp {
     }
 
     @BeforeEach
-    public final void getUp() throws SQLException, ClassNotFoundException {
-        app = App.getApp();
+    public final void getUp() throws SQLException {
+        app = App.getAppTest();
     }
 
     @Test
