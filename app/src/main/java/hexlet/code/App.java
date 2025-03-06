@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class App {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Javalin app = getApp();
         String port = System.getenv().getOrDefault("PORT", "7070");
         app.start(Integer.parseInt(port));
@@ -36,10 +36,11 @@ public class App {
         return templateEngine;
     }
 
-    public static Javalin getApp() throws SQLException {
+    public static Javalin getApp() throws SQLException, ClassNotFoundException {
         HikariConfig hikariConfig = new HikariConfig();
         String urlDataBase = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;");
         hikariConfig.setJdbcUrl(urlDataBase);
+        Class.forName("org.postgresql.Driver");
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
         InputStream url = App.class.getClassLoader().getResourceAsStream("schema.sql");
