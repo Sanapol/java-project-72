@@ -11,18 +11,18 @@ import java.sql.Timestamp;
 @Setter
 public class UrlCheck {
     private long id;
-    private long urlId;
     private int statusCode;
     private String title;
     private String h1;
     private String description;
+    private long urlId;
     private Timestamp createdAt;
 
-    public UrlCheck(long urlId, int statusCode, String title, String h1, String description) {
-        this.urlId = urlId;
+    public UrlCheck(int statusCode, String title, String h1, String description, long urlId) {
         this.statusCode = statusCode;
         this.title = title;
         this.h1 = h1;
         this.description = description;
+        this.urlId = urlId;
     }
 }

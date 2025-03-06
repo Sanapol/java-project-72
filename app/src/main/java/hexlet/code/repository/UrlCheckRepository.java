@@ -17,15 +17,15 @@ import static hexlet.code.repository.BaseRepository.dataSource;
 public class UrlCheckRepository {
 
     public static void check(UrlCheck urlCheck) throws SQLException {
-        String sql = "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at)"
+        String sql = "INSERT INTO url_checks (status_code, title, h1, description, url_id, created_at)"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setLong(1, urlCheck.getUrlId());
-            preparedStatement.setInt(2, urlCheck.getStatusCode());
-            preparedStatement.setString(3, urlCheck.getH1());
-            preparedStatement.setString(4, urlCheck.getTitle());
-            preparedStatement.setString(5, urlCheck.getDescription());
+            preparedStatement.setInt(1, urlCheck.getStatusCode());
+            preparedStatement.setString(2, urlCheck.getH1());
+            preparedStatement.setString(3, urlCheck.getTitle());
+            preparedStatement.setString(4, urlCheck.getDescription());
+            preparedStatement.setLong(5, urlCheck.getUrlId());
             preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -53,7 +53,7 @@ public class UrlCheckRepository {
                 String title = resultSet.getString("title");
                 String description = resultSet.getString("description");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
-                UrlCheck urlCheck = new UrlCheck(urlId, statusCode, h1, title, description);
+                UrlCheck urlCheck = new UrlCheck(statusCode, h1, title, description, urlId);
                 urlCheck.setId(id);
                 urlCheck.setCreatedAt(createdAt);
                 result.add(urlCheck);

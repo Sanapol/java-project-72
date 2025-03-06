@@ -92,7 +92,7 @@ public class WebsiteController {
             String title = doc.title();
             String h1 = doc.select("h1").text();
             String description = doc.select("meta[name=description]").attr("content");
-            UrlCheck urlCheck = new UrlCheck(id, statusCode, title, h1, description);
+            UrlCheck urlCheck = new UrlCheck(statusCode, title, h1, description, id);
             UrlCheckRepository.check(urlCheck);
             ctx.sessionAttribute("flash", "Сайт успешно проверен");
             ctx.sessionAttribute("flash-type", "success");
