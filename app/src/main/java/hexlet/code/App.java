@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.utilit.NamedRoutes;
 
-import java.sql.Driver;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
