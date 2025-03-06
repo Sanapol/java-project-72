@@ -37,7 +37,7 @@ public class App {
         return templateEngine;
     }
 
-    public static Javalin getApp() throws SQLException, PSQLException {
+    public static Javalin getApp() throws SQLException {
         HikariConfig hikariConfig = new HikariConfig();
         String urlDataBase = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;");
         hikariConfig.setJdbcUrl(urlDataBase);
