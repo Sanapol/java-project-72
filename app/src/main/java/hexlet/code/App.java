@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.utilit.NamedRoutes;
 
+import java.sql.Driver;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,9 +39,9 @@ public class App {
 
     public static Javalin getApp() throws SQLException, ClassNotFoundException {
         HikariConfig hikariConfig = new HikariConfig();
+        Class.forName("org.postgresql.Driver");
         String urlDataBase = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;");
         hikariConfig.setJdbcUrl(urlDataBase);
-        Class.forName("org.postgresql.Driver");
 
         HikariDataSource dataSource = new HikariDataSource(hikariConfig);
         InputStream url = App.class.getClassLoader().getResourceAsStream("schema.sql");
