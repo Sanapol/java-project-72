@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.postgresql.util.PSQLException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -35,7 +36,7 @@ public class TestApp {
     }
 
     @BeforeEach
-    public final void getUp() throws SQLException {
+    public final void getUp() throws SQLException, PSQLException {
         app = App.getApp();
     }
 

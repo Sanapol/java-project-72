@@ -11,6 +11,7 @@ import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.utilit.NamedRoutes;
+import org.postgresql.util.PSQLException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class App {
         return templateEngine;
     }
 
-    public static Javalin getApp() throws SQLException {
+    public static Javalin getApp() throws SQLException, PSQLException {
         HikariConfig hikariConfig = new HikariConfig();
         String urlDataBase = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;");
         hikariConfig.setJdbcUrl(urlDataBase);
