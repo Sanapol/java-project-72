@@ -47,8 +47,8 @@ public class UrlRepository extends BaseRepository {
                 Url url = new Url(name);
                 List<UrlCheck> urlCheck = UrlCheckRepository.getCheckList(id);
                 if (!urlCheck.isEmpty()) {
-                    url.setLastCheck(urlCheck.getFirst().getCreatedAt());
-                    url.setCode(urlCheck.getFirst().getStatusCode());
+                    url.setLastCheck(urlCheck.getLast().getCreatedAt());
+                    url.setCode(urlCheck.getLast().getStatusCode());
                 }
                 url.setId(id);
                 result.add(url);
