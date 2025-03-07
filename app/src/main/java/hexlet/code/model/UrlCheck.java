@@ -10,15 +10,15 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class UrlCheck {
-    private long id;
+    private int id;
     private int statusCode;
     private String title;
     private String h1;
     private String description;
-    private long urlId;
+    private int urlId;
     private Timestamp createdAt;
 
-    public UrlCheck(int statusCode, String title, String h1, String description, long urlId) {
+    public UrlCheck(int statusCode, String title, String h1, String description, int urlId) {
         this.statusCode = statusCode;
         this.title = title;
         this.h1 = h1;

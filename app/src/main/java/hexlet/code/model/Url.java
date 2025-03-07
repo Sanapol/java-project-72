@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Url {
-    private long id;
+    private int id;
     private String name;
     private Timestamp createdAt;
     private Timestamp lastCheck;

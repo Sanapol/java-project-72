@@ -31,23 +31,23 @@ public class UrlCheckRepository {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
             if (resultSet.next()) {
-                urlCheck.setId(resultSet.getLong(1));
+                urlCheck.setId(resultSet.getInt(1));
             } else {
                 throw new SQLException("DB have not returned id key");
             }
         }
     }
 
-    public static List<UrlCheck> getCheckList(Long urlId) throws SQLException {
+    public static List<UrlCheck> getCheckList(int urlId) throws SQLException {
         String sql = "Select * FROM url_checks WHERE url_id = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, urlId);
+            stmt.setInt(1, urlId);
             ResultSet resultSet = stmt.executeQuery();
             List<UrlCheck> result = new ArrayList<>();
 
             while (resultSet.next()) {
-                long id = resultSet.getLong("id");
+                int id = resultSet.getInt("id");
                 int statusCode = resultSet.getInt("status_code");
                 String h1 = resultSet.getString("h1");
                 String title = resultSet.getString("title");

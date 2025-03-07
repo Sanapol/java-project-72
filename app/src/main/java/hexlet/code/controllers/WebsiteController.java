@@ -69,7 +69,7 @@ public class WebsiteController {
     }
 
     public static void show(Context ctx) throws SQLException {
-        long id = ctx.pathParamAsClass("id", Long.class).get();
+        int id = ctx.pathParamAsClass("id", Integer.class).get();
         Url url = UrlRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("site not found"));
         UrlPage page = new UrlPage(url);
@@ -81,7 +81,7 @@ public class WebsiteController {
     }
 
     public static void check(Context ctx) throws SQLException {
-        long id = ctx.pathParamAsClass("id", Long.class).get();
+        int id = ctx.pathParamAsClass("id", Integer.class).get();
         Url name = UrlRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("current id " + id + " not found"));
 

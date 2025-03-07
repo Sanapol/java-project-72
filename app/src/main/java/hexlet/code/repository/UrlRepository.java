@@ -27,7 +27,7 @@ public class UrlRepository extends BaseRepository {
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
-                url.setId(generatedKeys.getLong(1));
+                url.setId(generatedKeys.getInt(1));
             } else {
                 throw new SQLException("BD have not returned id key");
             }
@@ -42,7 +42,7 @@ public class UrlRepository extends BaseRepository {
             List<Url> result = new ArrayList<>();
 
             while (resultSet.next()) {
-                long id = resultSet.getLong("id");
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 Url url = new Url(name);
                 List<UrlCheck> urlCheck = UrlCheckRepository.getCheckList(id);
@@ -64,7 +64,7 @@ public class UrlRepository extends BaseRepository {
             stmt.setString(1, url);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                long id = resultSet.getLong("id");
+                int id = resultSet.getInt("id");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
                 Url result = new Url(url);
                 result.setCreatedAt(createdAt);
@@ -75,11 +75,11 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
-    public static Optional<Url> find(long id) throws SQLException {
+    public static Optional<Url> find(int id) throws SQLException {
         String sql = "SELECT * FROM urls WHERE id = ?";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, id);
+            stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
