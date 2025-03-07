@@ -22,8 +22,8 @@ public class UrlCheckRepository {
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, urlCheck.getStatusCode());
-            preparedStatement.setString(2, urlCheck.getH1());
-            preparedStatement.setString(3, urlCheck.getTitle());
+            preparedStatement.setString(2, urlCheck.getTitle());
+            preparedStatement.setString(3, urlCheck.getH1());
             preparedStatement.setString(4, urlCheck.getDescription());
             preparedStatement.setLong(5, urlCheck.getUrlId());
             preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
