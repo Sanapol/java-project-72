@@ -60,8 +60,10 @@ public class TestApp {
         JavalinTest.test(app, (server, client) -> {
             String requestBody = "name=https://www.example.com";
             Response response = client.post("/urls", requestBody);
+            Optional<Url> request = UrlRepository.findByName(requestBody);
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://www.example.com");
+            assertThat(request).isNotNull();
         });
     }
 

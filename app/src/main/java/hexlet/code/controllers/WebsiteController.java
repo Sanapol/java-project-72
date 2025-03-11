@@ -14,10 +14,14 @@ import io.javalin.http.NotFoundResponse;
 import io.javalin.validation.ValidationException;
 import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+import org.eclipse.jetty.io.EofException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,7 +42,7 @@ public class WebsiteController {
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
                     .get();
             Url url = new Url(GetDomain.get(name.trim()));
-            Optional<Url> repeat = UrlRepository.findByName(name);
+            Optional<Url> repeat = UrlRepository.findByName(GetDomain.get(name));
             if (repeat.isEmpty()) {
                 UrlRepository.save(url);
                 ctx.sessionAttribute("flash", "Сайт успешно добавлен");
@@ -97,8 +101,13 @@ public class WebsiteController {
             ctx.sessionAttribute("flash", "Сайт успешно проверен");
             ctx.sessionAttribute("flash-type", "success");
             ctx.redirect(NamedRoutes.urlPage(id));
-        } catch (SQLException e) {
-            throw new SQLException("check is failed");
+        } catch (SQLException | UnirestException e) {
+            UrlPage page = new UrlPage(name);
+            ctx.sessionAttribute("flash", "не удается установить соединение");
+            ctx.sessionAttribute("flash-type", "danger");
+            page.setFlash(ctx.consumeSessionAttribute("flash"));
+            page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
+            ctx.render("pages/url.jte", model("page", page));
         }
     }
 }
