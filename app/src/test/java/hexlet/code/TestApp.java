@@ -36,7 +36,7 @@ public class TestApp {
 
     @BeforeEach
     public final void getUp() throws SQLException {
-        app = App.getAppTest();
+        app = App.getApp();
     }
 
     @Test
@@ -101,7 +101,7 @@ public class TestApp {
         UrlRepository.save(website);
 
         JavalinTest.test(app, (server, client) -> {
-            Response response = client.post(NamedRoutes.urlChecks(1));
+            Response response = client.post(NamedRoutes.urlChecks(website.getId()));
             assertThat(response.body().string()).contains("hello i am title")
                     .contains("hello i am h1").contains("hello i am description");
         });
