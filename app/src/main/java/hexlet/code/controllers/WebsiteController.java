@@ -15,13 +15,10 @@ import io.javalin.validation.ValidationException;
 import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
 import kong.unirest.core.UnirestException;
-import org.eclipse.jetty.io.EofException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
-import java.io.EOFException;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.List;
