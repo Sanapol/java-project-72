@@ -100,7 +100,6 @@ public class TestApp {
                 .setHeader("Content-Type", "application/json; charset=utf-8")
                 .setBody(jsonBody);
         mockWebServer.enqueue(mockResponse);
-        HttpUrl url = mockWebServer.url(baseUrl);
         Url website = new Url(baseUrl);
         UrlRepository.save(website);
 
