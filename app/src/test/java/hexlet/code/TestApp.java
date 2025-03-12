@@ -6,16 +6,19 @@ import hexlet.code.utilit.GetDomain;
 import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
+import io.micrometer.core.instrument.util.IOUtils;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import org.h2.util.json.JSONArray;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -89,12 +92,13 @@ public class TestApp {
     }
 
     @Test
-    public void testChecks() throws SQLException {
+    public void testChecks() throws SQLException, IOException {
         String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+        InputStream stream = JSONArray.class.getClassLoader().getResourceAsStream("htmlForTest.html");
+        String jsonBody = IOUtils.toString(stream);
         MockResponse mockResponse = new MockResponse()
-                .setHeader("Content-Type", "application/json; charset=utf-8");
-        mockResponse.setBody("<title>hello i am title</title> "
-                + "<h1>hello i am h1</h1> <meta name=\"description\" content=\"hello i am description\">");
+                .setHeader("Content-Type", "application/json; charset=utf-8")
+                .setBody(jsonBody);
         mockWebServer.enqueue(mockResponse);
         HttpUrl url = mockWebServer.url(baseUrl);
         Url website = new Url(baseUrl);
