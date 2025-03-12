@@ -7,7 +7,6 @@ import hexlet.code.utilit.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import io.micrometer.core.instrument.util.IOUtils;
-import okhttp3.HttpUrl;
 import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
