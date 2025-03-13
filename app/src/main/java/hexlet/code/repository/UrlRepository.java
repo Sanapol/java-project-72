@@ -45,10 +45,10 @@ public class UrlRepository extends BaseRepository {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 Url url = new Url(name);
-                List<UrlCheck> urlCheck = UrlCheckRepository.getCheckList(id);
+                Optional<UrlCheck> urlCheck = UrlCheckRepository.getLastCheck(id);
                 if (!urlCheck.isEmpty()) {
-                    url.setLastCheck(urlCheck.getLast().getCreatedAt());
-                    url.setCode(urlCheck.getLast().getStatusCode());
+                    url.setLastCheck(urlCheck.get().getCreatedAt());
+                    url.setCode(urlCheck.get().getStatusCode());
                 }
                 url.setId(id);
                 result.add(url);
