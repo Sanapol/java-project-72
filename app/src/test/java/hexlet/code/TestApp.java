@@ -128,7 +128,7 @@ public class TestApp {
         JavalinTest.test(app, (server, client) -> {
             var name = "http://localhost:50275";
             var requestBody = "url=" + name;
-            assertThat(client.post("/urls", requestBody).code()).isEqualTo(500);
+            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
 
             var actualUrl = UrlRepository.findByName(name);
             assertThat(actualUrl).isNotNull();
