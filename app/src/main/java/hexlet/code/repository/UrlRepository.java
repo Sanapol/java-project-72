@@ -46,7 +46,7 @@ public class UrlRepository extends BaseRepository {
                 String name = resultSet.getString("name");
                 Url url = new Url(name);
                 Optional<UrlCheck> urlCheck = UrlCheckRepository.getLastCheck(id);
-                if (urlCheck.isPresent()) {
+                if (!urlCheck.isEmpty()) {
                     url.setLastCheck(urlCheck.get().getCreatedAt());
                     url.setCode(urlCheck.get().getStatusCode());
                 }
