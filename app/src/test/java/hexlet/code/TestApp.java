@@ -91,7 +91,7 @@ public class TestApp {
     }
 
     @Test
-    public void testChecks() throws SQLException, IOException {
+    public void testChecks() throws SQLException {
         String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
         InputStream stream = JSONArray.class.getClassLoader().getResourceAsStream("htmlForTest.html");
         String jsonBody = IOUtils.toString(stream);
@@ -117,6 +117,7 @@ public class TestApp {
         UrlRepository.save(url2);
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlsPage());
+            assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://codeclimate.com")
                     .contains("https://htmlbook.ru");
         });
@@ -127,7 +128,7 @@ public class TestApp {
         JavalinTest.test(app, (server, client) -> {
             var name = "http://localhost:50275";
             var requestBody = "url=" + name;
-            client.post("/urls", requestBody);
+            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
 
             var actualUrl = UrlRepository.findByName(name);
             assertThat(actualUrl).isNotNull();
