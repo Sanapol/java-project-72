@@ -27,5 +27,13 @@ public class Url {
             return "";
         }
     }
+
+    public final String getLastCode() {
+        if (code != null) {
+            return String.valueOf(code);
+        } else {
+            return "";
+        }
+    }
 }
 
