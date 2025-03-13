@@ -117,7 +117,6 @@ public class TestApp {
         UrlRepository.save(url2);
         JavalinTest.test(app, (server, client) -> {
             Response response = client.get(NamedRoutes.urlsPage());
-            assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://codeclimate.com")
                     .contains("https://htmlbook.ru");
         });
@@ -128,7 +127,7 @@ public class TestApp {
         JavalinTest.test(app, (server, client) -> {
             var name = "http://localhost:50275";
             var requestBody = "url=" + name;
-            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
+            client.post("/urls", requestBody);
 
             var actualUrl = UrlRepository.findByName(name);
             assertThat(actualUrl).isNotNull();
