@@ -27,10 +27,12 @@ public class UrlCheckRepository {
             preparedStatement.setString(3, urlCheck.getH1());
             preparedStatement.setString(4, urlCheck.getDescription());
             preparedStatement.setLong(5, urlCheck.getUrlId());
-            preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
+            Timestamp time = new Timestamp(new Date().getTime());
+            preparedStatement.setTimestamp(6, time);
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
+            urlCheck.setCreatedAt(time);
             if (resultSet.next()) {
                 urlCheck.setId(resultSet.getInt(1));
             } else {
