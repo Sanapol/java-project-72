@@ -64,7 +64,8 @@ public class UrlCheckRepository {
     }
 
     public static Optional<UrlCheck> getLastCheck(int urlId) throws SQLException {
-        String sql = "SELECT DISTINCT ON (url_id) * FROM url_checks WHERE url_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM (SELECT DISTINCT ON (url_id) * FROM url_checks WHERE url_id = ? "
+        + "ORDER BY url_id, created_at DESC) sub ORDER BY created_at DESC";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, urlId);
