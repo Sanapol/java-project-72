@@ -22,10 +22,12 @@ public class UrlRepository extends BaseRepository {
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getName());
-            preparedStatement.setTimestamp(2, new PGTimestamp(new Date().getTime()));
+            PGTimestamp time = new PGTimestamp(new Date().getTime());
+            preparedStatement.setTimestamp(2, time);
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
+            url.setCreatedAt(time);
             if (generatedKeys.next()) {
                 url.setId(generatedKeys.getInt(1));
             } else {

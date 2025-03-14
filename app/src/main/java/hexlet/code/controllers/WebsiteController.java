@@ -37,8 +37,8 @@ public class WebsiteController {
         try {
             String name = ctx.formParamAsClass("url", String.class)
                     .check(n -> !n.isEmpty(), "Поле не должно быть пустым")
-                    .get();
-            Url url = new Url(GetDomain.get(name.trim()));
+                    .get().trim();
+            Url url = new Url(GetDomain.get(name));
             Optional<Url> repeat = UrlRepository.findByName(GetDomain.get(name));
             if (repeat.isEmpty()) {
                 UrlRepository.save(url);
@@ -50,7 +50,7 @@ public class WebsiteController {
                 ctx.sessionAttribute("flash-type", "warning");
                 ctx.redirect(NamedRoutes.urlPage(repeat.get().getId()));
             }
-        } catch (ValidationException | MalformedURLException e) {
+        } catch (ValidationException | MalformedURLException | IllegalArgumentException e) {
             String name = ctx.formParam("url");
             BuildWebsitePage page = new BuildWebsitePage(name);
             ctx.sessionAttribute("flash", "Некорректный URL");
