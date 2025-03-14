@@ -109,6 +109,33 @@ public class TestApp {
         });
     }
 
+    @Test
+    public void testEntities() throws SQLException, MalformedURLException {
+        Url url1 = new Url(GetDomain.get("https://codeclimate.com/github/Sanapol/java-project-72"));
+        Url url2 = new Url(GetDomain.get("https://htmlbook.ru/samhtml/tekst/spetssimvoly"));
+        UrlRepository.save(url1);
+        UrlRepository.save(url2);
+        JavalinTest.test(app, (server, client) -> {
+            Response response = client.get(NamedRoutes.urlsPage());
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).contains("https://codeclimate.com")
+                    .contains("https://htmlbook.ru");
+        });
+    }
+
+    @Test
+    public void testPost() {
+        JavalinTest.test(app, (server, client) -> {
+            var name = "http://localhost:50275";
+            var requestBody = "url=" + name;
+            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
+
+            var actualUrl = UrlRepository.findByName(name);
+            assertThat(actualUrl).isNotNull();
+        });
+    }
+
+
     @AfterAll
     static void serverOff() throws IOException {
         mockWebServer.shutdown();
