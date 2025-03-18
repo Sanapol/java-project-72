@@ -1,7 +1,6 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.Url;
-import hexlet.code.model.UrlCheck;
 import org.postgresql.util.PGTimestamp;
 
 import java.sql.Connection;
@@ -47,11 +46,6 @@ public class UrlRepository extends BaseRepository {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 Url url = new Url(name);
-                Optional<UrlCheck> urlCheck = UrlCheckRepository.getLastCheck(id);
-                if (!urlCheck.isEmpty()) {
-                    url.setLastCheck(urlCheck.get().getCreatedAt());
-                    url.setCode(urlCheck.get().getStatusCode());
-                }
                 url.setId(id);
                 result.add(url);
             }

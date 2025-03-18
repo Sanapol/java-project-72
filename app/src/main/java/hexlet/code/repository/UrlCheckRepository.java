@@ -10,8 +10,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import static hexlet.code.repository.BaseRepository.dataSource;
 
@@ -65,27 +66,26 @@ public class UrlCheckRepository {
         }
     }
 
-    public static Optional<UrlCheck> getLastCheck(int urlId) throws SQLException {
-        String sql = "SELECT * FROM (SELECT DISTINCT ON (url_id) * FROM url_checks WHERE url_id = ? "
+    public static List<Map<Integer, String>> getLastChecks() throws SQLException {
+        String sql = "SELECT url_id, status_code, created_at FROM (SELECT DISTINCT ON (url_id) * FROM url_checks "
             + "ORDER BY url_id, created_at DESC) sub ORDER BY created_at DESC";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, urlId);
             ResultSet resultSet = stmt.executeQuery();
-            Optional<UrlCheck> result = Optional.empty();
+            List<Map<Integer, String>> result = new ArrayList<>();
+            Map<Integer, String> mapStatusCode = new HashMap<>();
+            Map<Integer, String> mapCreatedAt = new HashMap<>();
 
-            if (resultSet.next()) {
-                int id = resultSet.getInt("id");
+            while (resultSet.next()) {
                 int statusCode = resultSet.getInt("status_code");
-                String h1 = resultSet.getString("h1");
-                String title = resultSet.getString("title");
-                String description = resultSet.getString("description");
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
-                UrlCheck urlCheck = new UrlCheck(statusCode, h1, title, description, urlId);
-                urlCheck.setId(id);
-                urlCheck.setCreatedAt(createdAt);
-                result = Optional.of(urlCheck);
+                int urlId = resultSet.getInt("url_id");
+
+                mapStatusCode.put(urlId, String.valueOf(statusCode));
+                mapCreatedAt.put(urlId, String.valueOf(createdAt).substring(0, 16));
             }
+            result.add(mapStatusCode);
+            result.add(mapCreatedAt);
             return result;
         }
     }

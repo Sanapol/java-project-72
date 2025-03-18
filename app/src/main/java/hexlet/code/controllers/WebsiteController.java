@@ -22,6 +22,7 @@ import org.jsoup.nodes.Document;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
@@ -63,7 +64,8 @@ public class WebsiteController {
 
     public static void urls(Context ctx) throws SQLException {
         List<Url> urls = UrlRepository.getEntities();
-        UrlsPage page = new UrlsPage(urls);
+        List<Map<Integer, String>> checklist = UrlCheckRepository.getLastChecks();
+        UrlsPage page = new UrlsPage(urls, checklist);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("pages/urls.jte", model("page", page));

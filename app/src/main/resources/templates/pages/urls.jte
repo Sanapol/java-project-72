@@ -23,8 +23,8 @@
                         <tr>
                             <td class="col-1">${url.getId()}</td>
                             <td class="col-3"><a href="${NamedRoutes.urlPage(url.getId())}">${url.getName()}</a></td>
-                            <td class="col-1">${url.getCode()}</td>
-                            <td class="col-3">${url.getLastCheck()}</td>
+                            <td class="col-1">${page.getChecklist().get(0).get(url.getId())}</td>
+                            <td class="col-3">${page.getChecklist().get(1).get(url.getId())}</td>
                         </tr>
                     @endfor
                 </tbody>
